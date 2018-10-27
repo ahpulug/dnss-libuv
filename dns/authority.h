@@ -9,9 +9,16 @@
 #ifndef _AUTHORITY_H_
 #define _AUTHORITY_H_
 
+#include "common.h"
+
 struct dns_authority_s
 {
-
+    /*
+     * 18-10-27
+     * TODO: parse it in the feature
+     */
+    uint16_t _len;
+    char * buf;
 };
 
 typedef struct dns_authority_s dns_authority_t;

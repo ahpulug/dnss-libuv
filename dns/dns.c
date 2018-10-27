@@ -7,3 +7,17 @@
 *******************************************************/
 
 #include "dns.h"
+
+dns_t *dns_from_buf(const buffer_t *buffer)
+{
+    dns_t *dns = (dns_t *)malloc(sizeof(dns_t));
+
+    dns->header = dns_header_from_buf(buffer);
+
+    return 0;
+}
+
+buffer_t *dns_to_buf(const dns_t *dns)
+{
+    return 0;
+}

@@ -15,7 +15,7 @@
 #include "authority.h"
 #include "additional.h"
 
-struct dns
+struct dns_s
 {
     dns_header_t *header;
     dns_question_t *questions;
@@ -24,5 +24,10 @@ struct dns
     dns_additional_t *additional;
 };
 
+typedef struct dns_s dns_t;
+
+dns_t *dns_from_buf(const buffer_t *buffer);
+
+buffer_t *dns_to_buf(const dns_t *dns);
 
 #endif // _DNS_H_
