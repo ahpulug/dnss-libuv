@@ -6,7 +6,6 @@
  @Desc      : from header.h
 *******************************************************/
 
-#include <assert.h>
 #include "header.h"
 
 int parse_flag(dns_header_t *header, uint16_t flag)
@@ -47,30 +46,29 @@ int parse_flag(dns_header_t *header, uint16_t flag)
 
 }
 
-dns_header_t *dns_header_from_buf(const buffer_t *buffer)
+dns_header_t *dns_header_from_buf(const buffer_t *buffer, size_t pos)
 {
     dns_header_t *header = (dns_header_t *)malloc(sizeof(dns_header_t));
-    buffer_t *pos = buffer;
 
     //parse id
-    header->id = read_u16(pos);
+    header->id = read_u16((buffer_t *)(buffer + pos));
     pos += 2;
 
     uint16_t flag = 0;
-    flag = read_u16(pos);
+    flag = read_u16((buffer_t *)(buffer + pos));
     parse_flag(header, flag);
     pos += 2;
 
-    header->questions = read_u16(pos);
+    header->questions = read_u16((buffer_t *)(buffer + pos));
     pos += 2;
 
-    header->answers = read_u16(pos);
+    header->answers = read_u16((buffer_t *)(buffer + pos));
     pos += 2;
 
-    header->autority_rss = read_u16(pos);
+    header->autority_rss = read_u16((buffer_t *)(buffer + pos));
     pos += 2;
 
-    header->additional_rss = read_u16(pos);
+    header->additional_rss = read_u16((buffer_t *)(buffer + pos));
 
     return header;
 }

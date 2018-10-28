@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include <assert.h>
+
 typedef char buffer_t;
 
 uint16_t read_u16(buffer_t *pos);

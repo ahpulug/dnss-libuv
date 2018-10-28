@@ -17,6 +17,7 @@
 
 struct dns_s
 {
+    size_t pos;
     dns_header_t *header;
     dns_question_t *questions;
     dns_record_t *record;

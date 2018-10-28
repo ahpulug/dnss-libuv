@@ -11,8 +11,13 @@
 dns_t *dns_from_buf(const buffer_t *buffer)
 {
     dns_t *dns = (dns_t *)malloc(sizeof(dns_t));
+    dns->pos = 0;
 
-    dns->header = dns_header_from_buf(buffer);
+    dns->header = dns_header_from_buf(buffer, dns->pos);
+    assert(dns->pos == 12);
+
+    dns->questions = dns_question_from_buf(buffer, dns->pos);
+
 
     return 0;
 }

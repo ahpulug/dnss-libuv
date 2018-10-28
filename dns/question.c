@@ -7,3 +7,9 @@
 *******************************************************/
 
 #include "question.h"
+
+dns_question_t *dns_question_from_buf(const buffer_t *buffer, size_t pos)
+{
+    assert(pos == 12);
+    return NULL;
+}
