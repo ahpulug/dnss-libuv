@@ -16,7 +16,7 @@ dns_t *dns_from_buf(const buffer_t *buffer)
     dns->header = dns_header_from_buf(buffer, &dns->pos);
     assert(dns->pos == 12);
 
-    dns->questions = dns_question_from_buf(buffer, &dns->pos);
+    dns->questions = dns_question_from_buf(buffer, &dns->pos, dns->header->questions);
 
 
     return 0;
