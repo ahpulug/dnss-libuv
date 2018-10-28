@@ -69,6 +69,7 @@ dns_header_t *dns_header_from_buf(const buffer_t *buffer, size_t pos)
     pos += 2;
 
     header->additional_rss = read_u16((buffer_t *)(buffer + pos));
+    pos += 2;
 
     return header;
 }
