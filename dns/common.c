@@ -10,5 +10,5 @@
 
 uint16_t read_u16(buffer_t *pos)
 {
-    return (((uint16_t)*pos) << 8) | ((uint16_t)*(pos + 1));
+    return ((uint16_t)((*pos) << 8)) | ((uint16_t)(*(pos + 1) & 0x00ff));
 }
