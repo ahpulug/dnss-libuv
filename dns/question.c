@@ -43,6 +43,11 @@ dns_question_t *dns_question_from_buf(const buffer_t *buffer, size_t *pos, const
         (*pos)++;
 
         question[i].qtype = read_u16((buffer_t *)(buffer + *pos));
+
+        (*pos) += 2;
+
+        question[i].qclass = read_u16((buffer_t *)(buffer + *pos));
+        (*pos) += 2;
     }
 
     return question;

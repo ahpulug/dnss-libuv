@@ -15,6 +15,8 @@
 
 #include <assert.h>
 
+#define MAX_DOMAIN_LENGTH 256
+
 typedef char buffer_t;
 
 uint16_t read_u16(buffer_t *pos);

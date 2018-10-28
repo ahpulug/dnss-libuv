@@ -9,7 +9,6 @@
 #ifndef _QUESTION_H_
 #define _QUESTION_H_
 
-#define MAX_DOMAIN_LENGTH 256
 
 #include "common.h"
 
@@ -26,6 +25,7 @@ struct dns_question_s
 {
     char *name;
     uint16_t qtype;
+    uint16_t qclass;
 };
 
 typedef struct dns_question_s dns_question_t;
