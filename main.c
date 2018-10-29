@@ -11,14 +11,14 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
     ssize_t n;
     socklen_t len;
 
-    buffer_t buffer[1024];
+    buffer_t *buffer = new_buffer();
 
     for(int i = 0; i < 10; i++)
     {
         len = chilen;
-        n = recvfrom(sockfd, buffer, 1024, 0, pcliaddr, &len);
+        n = recvfrom(sockfd, buffer->buffer, 1024, 0, pcliaddr, &len);
         assert(n >= 0);
-        dns_t * dns = dns_from_buf(buffer);
+        dns_t *dns = dns_from_buf(buffer);
     }
 }
 

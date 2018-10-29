@@ -9,7 +9,7 @@
 #ifndef _AUTHORITY_H_
 #define _AUTHORITY_H_
 
-#include "common.h"
+#include "buffer.h"
 
 struct dns_authority_s
 {

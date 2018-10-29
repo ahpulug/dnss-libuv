@@ -46,30 +46,24 @@ int parse_flag(dns_header_t *header, uint16_t flag)
 
 }
 
-dns_header_t *dns_header_from_buf(const buffer_t *buffer, size_t *pos)
+dns_header_t *dns_header_from_buf(buffer_t *const buffer)
 {
     dns_header_t *header = (dns_header_t *)malloc(sizeof(dns_header_t));
 
     //parse id
-    header->id = read_u16((buffer_t *)(buffer + (*pos)));
-    (*pos) += 2;
+    header->id = buf_read_u16(buffer);
 
     uint16_t flag = 0;
-    flag = read_u16((buffer_t *)(buffer + (*pos)));
+    flag = buf_read_u16(buffer);
     parse_flag(header, flag);
-    (*pos) += 2;
 
-    header->questions = read_u16((buffer_t *)(buffer + (*pos)));
-    (*pos) += 2;
+    header->question_rrs = buf_read_u16(buffer);
 
-    header->answers = read_u16((buffer_t *)(buffer + (*pos)));
-    (*pos) += 2;
+    header->record_rrs = buf_read_u16(buffer);
 
-    header->autority_rss = read_u16((buffer_t *)(buffer + (*pos)));
-    (*pos) += 2;
+    header->autority_rss = buf_read_u16(buffer);
 
-    header->additional_rss = read_u16((buffer_t *)(buffer + (*pos)));
-    (*pos) += 2;
+    header->additional_rss = buf_read_u16(buffer);
 
     return header;
 }

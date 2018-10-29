@@ -10,15 +10,7 @@
 #define _QUESTION_H_
 
 
-#include "common.h"
-
-
-#define     QTYPE_A         1
-#define     QTYPE_NS        2
-#define     QTYPE_CNAME     5
-#define     QTYPE_MX        15
-#define     QTYPE_AAAA      28
-#define     QTYPE_UNKOWN    255
+#include "buffer.h"
 
 
 struct dns_question_s
@@ -30,7 +22,7 @@ struct dns_question_s
 
 typedef struct dns_question_s dns_question_t;
 
-dns_question_t *dns_question_from_buf(const buffer_t *buffer, size_t *pos, const size_t count);
+dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count);
 
 buffer_t *dns_question_to_buf(const dns_question_t *dns_question);
 

@@ -9,7 +9,8 @@
 #ifndef _HEADER_H_
 #define _HEADER_H_
 
-#include "common.h"
+#include <stdint.h>
+#include "buffer.h"
 
 struct dns_header_s
 {
@@ -26,15 +27,15 @@ struct dns_header_s
     uint16_t checking_disabled:1;
     uint16_t response_code:4;
 
-    uint16_t questions;
-    uint16_t answers;
+    uint16_t question_rrs;
+    uint16_t record_rrs;
     uint16_t autority_rss;
     uint16_t additional_rss;
 };
 
 typedef struct dns_header_s dns_header_t;
 
-dns_header_t *dns_header_from_buf(const buffer_t *buffer, size_t * buf_pos);
+dns_header_t *dns_header_from_buf(buffer_t *const buffer);
 
 buffer_t *dns_header_to_buf(const dns_header_t *header);
 

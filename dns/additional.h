@@ -9,7 +9,7 @@
 #ifndef _ADDITIONAL_H_
 #define _ADDITIONAL_H_
 
-#include "common.h"
+#include "buffer.h"
 
 struct dns_additional_s
 {

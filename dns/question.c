@@ -9,45 +9,20 @@
 #include "question.h"
 #include <string.h>
 
-dns_question_t *dns_question_from_buf(const buffer_t *buffer, size_t *pos, const size_t count)
+dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count)
 {
-    assert((*pos) == 12);
-
-    //parse qname
+    assert(buffer != NULL);
+    assert(buffer->offset == 12);
 
     dns_question_t *question = (dns_question_t *)malloc(sizeof(dns_question_t) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        char *tmp = (char *)malloc(MAX_DOMAIN_LENGTH);
-        size_t tmp_pos;
-        for(tmp_pos = 0; tmp_pos < MAX_DOMAIN_LENGTH; tmp_pos++, (*pos)++)
-        {
-            tmp[tmp_pos] = *(buffer + (*pos));
-            if(*(buffer + (*pos)) == '\0')
-            {
-                break;
-            }
-        }
+        question[i].name = read_domain(buffer);
 
-        char *const qname = (char *)malloc(tmp_pos + 1);
+        question[i].qtype = buf_read_u16(buffer);
 
-        memcpy(qname, tmp, tmp_pos + 1);
-
-        free(tmp);
-        tmp = 0;
-
-        question[i].name = qname;
-
-        // parse qtype
-        (*pos)++;
-
-        question[i].qtype = read_u16((buffer_t *)(buffer + *pos));
-
-        (*pos) += 2;
-
-        question[i].qclass = read_u16((buffer_t *)(buffer + *pos));
-        (*pos) += 2;
+        question[i].qclass = buf_read_u16(buffer);
     }
 
     return question;

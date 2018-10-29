@@ -8,16 +8,16 @@
 
 #include "dns.h"
 
-dns_t *dns_from_buf(const buffer_t *buffer)
+dns_t *dns_from_buf(buffer_t *const buffer)
 {
     dns_t *dns = (dns_t *)malloc(sizeof(dns_t));
-    dns->pos = 0;
 
-    dns->header = dns_header_from_buf(buffer, &dns->pos);
-    assert(dns->pos == 12);
+    dns->header = dns_header_from_buf(buffer);
+    assert(buffer->offset == 12);
 
-    dns->questions = dns_question_from_buf(buffer, &dns->pos, dns->header->questions);
+    dns->questions = dns_question_from_buf(buffer, dns->header->question_rrs);
 
+    dns->record = dns_record_from_buf(buffer, dns->header->record_rrs);
 
     return 0;
 }

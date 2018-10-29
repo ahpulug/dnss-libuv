@@ -14,10 +14,10 @@
 #include "record.h"
 #include "authority.h"
 #include "additional.h"
+#include "buffer.h"
 
 struct dns_s
 {
-    size_t pos;
     dns_header_t *header;
     dns_question_t *questions;
     dns_record_t *record;
@@ -27,7 +27,7 @@ struct dns_s
 
 typedef struct dns_s dns_t;
 
-dns_t *dns_from_buf(const buffer_t *buffer);
+dns_t *dns_from_buf(buffer_t *const buffer);
 
 buffer_t *dns_to_buf(const dns_t *dns);
 
