@@ -33,6 +33,8 @@ typedef struct
 
 buffer_t *new_buffer(void);
 
+uint8_t *buf_next(buffer_t *buffer, size_t len);
+
 uint8_t buf_next_u8(buffer_t *buffer);
 
 uint16_t buf_next_u16(buffer_t *buffer);
@@ -41,7 +43,7 @@ uint32_t buf_next_u32(buffer_t *buffer);
 
 void buf_pos_skip(buffer_t *buffer, size_t count);
 
-char *read_domain(buffer_t *buffer);
+char *buf_next_domain(buffer_t *buffer);
 
 
 #endif // _COMMON_H_

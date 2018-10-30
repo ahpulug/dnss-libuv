@@ -14,48 +14,33 @@
 
 struct dns_rc_A_s
 {
-    char *domain;
-    uint16_t qclass;
-    uint32_t ttl;
     uint8_t addr[4];
 };
 
 struct dns_rc_NS_s
 {
-    char *domain;
     char *host;
-    uint32_t ttl;
 };
 
 struct dns_rc_CNAME_s
 {
-    char *domain;
-    uint16_t qclass;
-    uint32_t ttl;
-    uint16_t data_len;
     char *host;
 };
 
 struct dns_rc_MX_s
 {
-    char *domain;
     uint16_t priority;
     char *host;
-    uint32_t ttl;
 };
 
 struct dns_rc_AAAA_s
 {
-    char *domain;
     uint8_t addr[16];
-    uint32_t ttl;
 };
 
 struct dns_rc_UNKNOW_s
 {
-    char *domain;
-    uint32_t ttl;
-    uint16_t date_len;
+    char *data;
 };
 
 typedef struct dns_rc_A_s dns_rc_A_t;
@@ -67,7 +52,11 @@ typedef struct dns_rc_UNKNOW_s dns_rc_UNKNOW_t;
 
 struct dns_record_s
 {
+    char *domain;
     uint16_t qtype;
+    uint16_t qclass;
+    uint32_t ttl;
+    uint16_t data_len;
     union
     {
         dns_rc_A_t A;

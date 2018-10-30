@@ -18,7 +18,7 @@ dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count
 
     for(int i = 0; i < count; ++i)
     {
-        question[i].name = read_domain(buffer);
+        question[i].name = buf_next_domain(buffer);
 
         question[i].qtype = buf_next_u16(buffer);
 

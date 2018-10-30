@@ -40,6 +40,14 @@ uint32_t read_u32_from_offset(buffer_t *buffer, ssize_t offset)
     );
 }
 
+uint8_t *buf_next(buffer_t *buffer, size_t len)
+{
+    uint8_t *const res = malloc(sizeof(uint8_t) * len);
+    memcpy(res, buffer->pos, len);
+    buf_pos_skip(buffer, len);
+    return res;
+}
+
 uint8_t buf_next_u8(buffer_t *buffer)
 {
     uint8_t res = read_u8_from_offset(buffer, buffer->offset);
@@ -148,7 +156,7 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
 }
 
 
-char *read_domain(buffer_t *const buffer)
+char *buf_next_domain(buffer_t *buffer)
 {
     return __read_domain(buffer, buffer->offset);
 }
