@@ -40,7 +40,7 @@ uint32_t read_u32_from_offset(buffer_t *buffer, ssize_t offset)
     );
 }
 
-uint8_t buf_read_u8(buffer_t *buffer)
+uint8_t buf_next_u8(buffer_t *buffer)
 {
     uint8_t res = read_u8_from_offset(buffer, buffer->offset);
     buffer->pos++;
@@ -48,7 +48,7 @@ uint8_t buf_read_u8(buffer_t *buffer)
     return res;
 }
 
-uint16_t buf_read_u16(buffer_t *buffer)
+uint16_t buf_next_u16(buffer_t *buffer)
 {
     uint16_t res = read_u16_from_offset(buffer, buffer->offset);
     buffer->pos += 2;
@@ -57,7 +57,7 @@ uint16_t buf_read_u16(buffer_t *buffer)
     return res;
 }
 
-uint32_t buf_read_u32(buffer_t *buffer)
+uint32_t buf_next_u32(buffer_t *buffer)
 {
     uint32_t res = read_u32_from_offset(buffer, buffer->offset);
     buffer->pos += 4;

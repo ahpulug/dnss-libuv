@@ -51,19 +51,19 @@ dns_header_t *dns_header_from_buf(buffer_t *const buffer)
     dns_header_t *header = (dns_header_t *)malloc(sizeof(dns_header_t));
 
     //parse id
-    header->id = buf_read_u16(buffer);
+    header->id = buf_next_u16(buffer);
 
     uint16_t flag = 0;
-    flag = buf_read_u16(buffer);
+    flag = buf_next_u16(buffer);
     parse_flag(header, flag);
 
-    header->question_rrs = buf_read_u16(buffer);
+    header->question_rrs = buf_next_u16(buffer);
 
-    header->record_rrs = buf_read_u16(buffer);
+    header->record_rrs = buf_next_u16(buffer);
 
-    header->autority_rss = buf_read_u16(buffer);
+    header->autority_rss = buf_next_u16(buffer);
 
-    header->additional_rss = buf_read_u16(buffer);
+    header->additional_rss = buf_next_u16(buffer);
 
     return header;
 }

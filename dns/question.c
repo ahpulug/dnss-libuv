@@ -20,9 +20,9 @@ dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count
     {
         question[i].name = read_domain(buffer);
 
-        question[i].qtype = buf_read_u16(buffer);
+        question[i].qtype = buf_next_u16(buffer);
 
-        question[i].qclass = buf_read_u16(buffer);
+        question[i].qclass = buf_next_u16(buffer);
     }
 
     return question;

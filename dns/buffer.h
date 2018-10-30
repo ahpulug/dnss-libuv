@@ -33,11 +33,11 @@ typedef struct
 
 buffer_t *new_buffer(void);
 
-uint8_t buf_read_u8(buffer_t *buffer);
+uint8_t buf_next_u8(buffer_t *buffer);
 
-uint16_t buf_read_u16(buffer_t *buffer);
+uint16_t buf_next_u16(buffer_t *buffer);
 
-uint32_t buf_read_u32(buffer_t *buffer);
+uint32_t buf_next_u32(buffer_t *buffer);
 
 void buf_pos_skip(buffer_t *buffer, size_t count);
 
