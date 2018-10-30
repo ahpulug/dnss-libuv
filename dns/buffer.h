@@ -6,8 +6,8 @@
  @Desc      : 
 *******************************************************/
 
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef _BUFFER_H_
+#define _BUFFER_H_
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -46,4 +46,4 @@ void buf_pos_skip(buffer_t *buffer, size_t count);
 char *buf_next_domain(buffer_t *buffer);
 
 
-#endif // _COMMON_H_
+#endif // _BUFFER_H_
