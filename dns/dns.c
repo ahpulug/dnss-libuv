@@ -19,6 +19,8 @@ dns_t *dns_from_buf(buffer_t *const buffer)
 
     dns->record = dns_record_from_buf(buffer, dns->header->record_rrs);
 
+    dns->authority = dns_authority_from_buf(buffer, dns->header->autority_rss);
+
     return 0;
 }
 

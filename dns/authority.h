@@ -10,17 +10,16 @@
 #define _AUTHORITY_H_
 
 #include "buffer.h"
+#include "message.h"
 
 struct dns_authority_s
 {
-    /*
-     * 18-10-27
-     * TODO: parse it in the feature
-     */
-    uint16_t _len;
-    char * buf;
+    size_t count;
+    dns_msg_t **msg;
 };
 
 typedef struct dns_authority_s dns_authority_t;
+
+dns_authority_t *dns_authority_from_buf(buffer_t *const buffer, const size_t count);
 
 #endif // _AUTHORITY_H_
