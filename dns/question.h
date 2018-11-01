@@ -34,6 +34,6 @@ dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count
 
 buffer_t *dns_question_to_buf(const dns_question_t *dns_question);
 
-int dns_question_free(dns_question_t *question);
+void dns_question_free(dns_question_t *question);
 
 #endif // _QUESTION_H_

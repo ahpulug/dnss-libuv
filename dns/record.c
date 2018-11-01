@@ -24,11 +24,11 @@ dns_record_t *dns_record_from_buf(buffer_t *const buffer, const size_t count)
     return record;
 }
 
-int dns_record_free(dns_record_t *record)
+void dns_record_free(dns_record_t *record)
 {
     if(record == NULL)
     {
-        return 1;
+        return;
     }
 
     for(int i = 0; i < record->count; ++i)
@@ -38,5 +38,4 @@ int dns_record_free(dns_record_t *record)
     }
     free(record->msgs);
     free(record);
-    return 0;
 }

@@ -30,9 +30,12 @@ buffer_t *dns_to_buf(const dns_t *dns)
     return 0;
 }
 
-int dns_free(dns_t *dns)
+void dns_free(dns_t *dns)
 {
     dns_header_free(dns->header);
     dns_question_free(dns->question);
-
+    dns_record_free(dns->record);
+    dns_authority_free(dns->authority);
+    dns_additional_free(dns->additional);
+    free(dns);
 }

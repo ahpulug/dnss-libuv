@@ -160,13 +160,11 @@ char *buf_next_domain(buffer_t *buffer)
     return __read_domain(buffer, buffer->offset);
 }
 
-int buf_free(buffer_t *buffer)
+void buf_free(buffer_t *buffer)
 {
     if(buffer == NULL)
     {
-        return 1;
+        return;
     }
-
     free(buffer);
-    return 0;
 }

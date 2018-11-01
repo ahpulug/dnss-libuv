@@ -19,6 +19,8 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
         n = recvfrom(sockfd, buffer->buffer, MAX_BUFFER_LENGTH, 0, pcliaddr, &len);
         assert(n >= 0);
         dns_t *dns = dns_from_buf(buffer);
+        dns_free(dns);
+        buf_free(buffer);
     }
 }
 

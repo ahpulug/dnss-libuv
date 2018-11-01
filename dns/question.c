@@ -31,11 +31,11 @@ dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count
     return question;
 }
 
-int dns_question_free(dns_question_t *question)
+void dns_question_free(dns_question_t *question)
 {
     if(question == NULL)
     {
-        return 1;
+        return;
     }
 
     if(question->count != 0)
@@ -47,5 +47,4 @@ int dns_question_free(dns_question_t *question)
         free(question->questions);
     }
     free(question);
-    return 0;
 }

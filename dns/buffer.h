@@ -45,6 +45,6 @@ void buf_pos_skip(buffer_t *buffer, size_t count);
 
 char *buf_next_domain(buffer_t *buffer);
 
-int buf_free(buffer_t *buffer);
+void buf_free(buffer_t *buffer);
 
 #endif // _BUFFER_H_

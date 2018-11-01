@@ -31,6 +31,6 @@ dns_t *dns_from_buf(buffer_t *const buffer);
 
 buffer_t *dns_to_buf(const dns_t *dns);
 
-int dns_free(dns_t *dns);
+void dns_free(dns_t *dns);
 
 #endif // _DNS_H_

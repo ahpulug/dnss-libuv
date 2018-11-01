@@ -24,11 +24,11 @@ dns_authority_t *dns_authority_from_buf(buffer_t *const buffer, const size_t cou
     return authority;
 }
 
-int dns_authority_free(dns_authority_t *authority)
+void dns_authority_free(dns_authority_t *authority)
 {
     if(authority == NULL)
     {
-        return 1;
+        return;
     }
 
     for(int i = 0; i < authority->count; ++i)
@@ -38,5 +38,4 @@ int dns_authority_free(dns_authority_t *authority)
     }
     free(authority->msgs);
     free(authority);
-    return 0;
 }

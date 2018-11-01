@@ -28,11 +28,11 @@ int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer)
     return 0;
 }
 
-int dns_msg_free(dns_msg_t *message)
+void dns_msg_free(dns_msg_t *message)
 {
     if(message == NULL)
     {
-        return 1;
+        return;
     }
 
     if(message->domain != NULL)
@@ -45,5 +45,4 @@ int dns_msg_free(dns_msg_t *message)
         free(message->data);
     }
     free(message);
-    return 0;
 }
