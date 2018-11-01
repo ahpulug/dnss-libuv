@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define MAX_BUFFER_LENGTH (1024)
+#define MAX_BUFFER_LENGTH (8192)
 #define MAX_DOMAIN_LENGTH (256)
 #define MAX_SECTION_LENGTH (64)
 

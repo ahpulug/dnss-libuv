@@ -47,4 +47,5 @@ dns_msg_t *dns_msg_from_buffer(buffer_t *buffer)
             message->UNKNOW.data = (char *)buf_next(buffer, message->data_len);
             break;
     }
+    return message;
 }
