@@ -13,11 +13,19 @@
 #include "buffer.h"
 
 
-struct dns_question_s
+struct question_s
 {
     char *name;
     uint16_t qtype;
     uint16_t qclass;
+};
+
+typedef struct question_s questions_t;
+
+struct dns_question_s
+{
+    size_t count;
+    questions_t *questions;
 };
 
 typedef struct dns_question_s dns_question_t;
@@ -25,5 +33,7 @@ typedef struct dns_question_s dns_question_t;
 dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count);
 
 buffer_t *dns_question_to_buf(const dns_question_t *dns_question);
+
+int dns_question_free(dns_question_t *question);
 
 #endif // _QUESTION_H_

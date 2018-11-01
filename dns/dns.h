@@ -19,7 +19,7 @@
 struct dns_s
 {
     dns_header_t *header;
-    dns_question_t *questions;
+    dns_question_t *question;
     dns_record_t *record;
     dns_authority_t *authority;
     dns_additional_t *additional;
@@ -30,5 +30,7 @@ typedef struct dns_s dns_t;
 dns_t *dns_from_buf(buffer_t *const buffer);
 
 buffer_t *dns_to_buf(const dns_t *dns);
+
+int dns_free(dns_t *dns);
 
 #endif // _DNS_H_

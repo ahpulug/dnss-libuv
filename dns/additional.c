@@ -14,12 +14,29 @@ dns_additional_t *dns_additional_from_buf(buffer_t *const buffer, const size_t c
 
     additional->count = count;
 
-    additional->msg = malloc(sizeof(dns_msg_t) * count);
+    additional->msgs = malloc(sizeof(dns_msg_t) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        dns_msg_from_buf(&additional->msg[i], buffer);
+        dns_msg_from_buf(&additional->msgs[i], buffer);
     }
 
     return additional;
+}
+
+int dns_additional_free(dns_additional_t *additional)
+{
+    if(additional == NULL)
+    {
+        return 1;
+    }
+
+    for(int i = 0; i < additional->count; ++i)
+    {
+        free(additional->msgs[i].domain);
+        free(additional->msgs[i].data);
+    }
+    free(additional->msgs);
+    free(additional);
+    return 0;
 }

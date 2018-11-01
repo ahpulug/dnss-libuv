@@ -14,7 +14,7 @@ dns_t *dns_from_buf(buffer_t *const buffer)
 
     dns->header = dns_header_from_buf(buffer);
 
-    dns->questions = dns_question_from_buf(buffer, dns->header->question_rrs);
+    dns->question = dns_question_from_buf(buffer, dns->header->question_rrs);
 
     dns->record = dns_record_from_buf(buffer, dns->header->record_rrs);
 
@@ -28,4 +28,11 @@ dns_t *dns_from_buf(buffer_t *const buffer)
 buffer_t *dns_to_buf(const dns_t *dns)
 {
     return 0;
+}
+
+int dns_free(dns_t *dns)
+{
+    dns_header_free(dns->header);
+    dns_question_free(dns->question);
+
 }

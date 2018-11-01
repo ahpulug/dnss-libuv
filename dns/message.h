@@ -57,19 +57,13 @@ struct dns_msg_s
     uint16_t qclass;
     uint32_t ttl;
     uint16_t data_len;
-    union
-    {
-        dns_msg_A_t A;
-        dns_msg_NS_t NS;
-        dns_msg_CNAME_t CNAME;
-        dns_msg_MX_t MX;
-        dns_msg_AAAA_t AAAA;
-        dns_msg_UNKNOW_t UNKNOW;
-    };
+    uint8_t *data;
 };
 
 typedef struct dns_msg_s dns_msg_t;
 
 int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer);
+
+int dns_msg_free(dns_msg_t *message);
 
 #endif // _MESSAGE_H_

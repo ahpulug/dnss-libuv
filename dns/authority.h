@@ -15,11 +15,13 @@
 struct dns_authority_s
 {
     size_t count;
-    dns_msg_t *msg;
+    dns_msg_t *msgs;
 };
 
 typedef struct dns_authority_s dns_authority_t;
 
 dns_authority_t *dns_authority_from_buf(buffer_t *const buffer, const size_t count);
+
+int dns_authority_free(dns_authority_t *authority);
 
 #endif // _AUTHORITY_H_
