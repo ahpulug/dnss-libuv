@@ -14,11 +14,11 @@ dns_authority_t *dns_authority_from_buf(buffer_t *const buffer, const size_t cou
 
     authority->count = count;
 
-    authority->msg = malloc(sizeof(authority->msg) * count);
+    authority->msg = malloc(sizeof(dns_msg_t) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        authority->msg[i] = dns_msg_from_buffer(buffer);
+        dns_msg_from_buf(&authority->msg[i], buffer);
     }
 
     return authority;

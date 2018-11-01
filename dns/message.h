@@ -70,6 +70,6 @@ struct dns_msg_s
 
 typedef struct dns_msg_s dns_msg_t;
 
-dns_msg_t *dns_msg_from_buffer(buffer_t *buffer);
+int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer);
 
 #endif // _MESSAGE_H_

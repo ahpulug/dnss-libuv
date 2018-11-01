@@ -14,11 +14,11 @@ dns_additional_t *dns_additional_from_buf(buffer_t *const buffer, const size_t c
 
     additional->count = count;
 
-    additional->msg = malloc(sizeof(additional->msg) * count);
+    additional->msg = malloc(sizeof(dns_msg_t) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        additional->msg[i] = dns_msg_from_buffer(buffer);
+        dns_msg_from_buf(&additional->msg[i], buffer);
     }
 
     return additional;

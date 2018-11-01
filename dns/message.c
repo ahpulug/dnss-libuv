@@ -8,10 +8,11 @@
 
 #include "message.h"
 
-dns_msg_t *dns_msg_from_buffer(buffer_t *buffer)
+int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer)
 {
+    assert(message != NULL);
+
     char *domain = buf_next_domain(buffer);
-    dns_msg_t *message = malloc(sizeof(dns_msg_t));
 
     message->domain = domain;
 
@@ -47,5 +48,5 @@ dns_msg_t *dns_msg_from_buffer(buffer_t *buffer)
             message->UNKNOW.data = (char *)buf_next(buffer, message->data_len);
             break;
     }
-    return message;
+    return 0;
 }

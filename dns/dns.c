@@ -13,7 +13,6 @@ dns_t *dns_from_buf(buffer_t *const buffer)
     dns_t *dns = (dns_t *)malloc(sizeof(dns_t));
 
     dns->header = dns_header_from_buf(buffer);
-    assert(buffer->offset == 12);
 
     dns->questions = dns_question_from_buf(buffer, dns->header->question_rrs);
 

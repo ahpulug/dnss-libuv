@@ -15,11 +15,11 @@ dns_record_t *dns_record_from_buf(buffer_t *const buffer, const size_t count)
 
     record->count = count;
 
-    record->msgs = malloc(sizeof(record->msgs) * count);
+    record->msgs = malloc(sizeof(dns_msg_t) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        record->msgs[i] = dns_msg_from_buffer(buffer);
+        dns_msg_from_buf(&record->msgs[i], buffer);
     }
     return record;
 }

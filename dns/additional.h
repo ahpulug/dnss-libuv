@@ -15,12 +15,11 @@
 struct dns_additional_s
 {
     size_t count;
-    dns_msg_t **msg;
+    dns_msg_t *msg;
 };
 
 typedef struct dns_additional_s dns_additional_t;
 
 dns_additional_t *dns_additional_from_buf(buffer_t *const buffer, const size_t count);
-
 
 #endif // _ADDITIONAL_H_

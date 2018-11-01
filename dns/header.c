@@ -72,4 +72,3 @@ buffer_t *dns_header_to_buf(const dns_header_t *header)
 {
     return 0;
 }
-
