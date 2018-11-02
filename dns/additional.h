@@ -15,7 +15,7 @@
 struct dns_additional_s
 {
     size_t count;
-    dns_msg_t *msgs;
+    dns_msg_t **msgs;
 };
 
 typedef struct dns_additional_s dns_additional_t;

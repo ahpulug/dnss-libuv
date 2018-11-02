@@ -15,7 +15,7 @@
 struct dns_authority_s
 {
     size_t count;
-    dns_msg_t *msgs;
+    dns_msg_t **msgs;
 };
 
 typedef struct dns_authority_s dns_authority_t;

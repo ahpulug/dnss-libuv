@@ -16,7 +16,7 @@
 struct dns_record_s
 {
     size_t count;
-    dns_msg_t *msgs;
+    dns_msg_t **msgs;
 };
 typedef struct dns_record_s dns_record_t;
 

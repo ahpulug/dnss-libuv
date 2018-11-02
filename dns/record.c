@@ -15,11 +15,11 @@ dns_record_t *dns_record_from_buf(buffer_t *const buffer, const size_t count)
 
     record->count = count;
 
-    record->msgs = malloc(sizeof(dns_msg_t) * count);
+    record->msgs = malloc(sizeof(record->msgs) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        dns_msg_from_buf(&record->msgs[i], buffer);
+        record->msgs[i] = dns_msg_from_buf(buffer);
     }
     return record;
 }
@@ -33,8 +33,7 @@ void dns_record_free(dns_record_t *record)
 
     for(int i = 0; i < record->count; ++i)
     {
-        free(record->msgs[i].domain);
-        free(record->msgs[i].data);
+        dns_msg_free(record->msgs[i]);
     }
     free(record->msgs);
     free(record);

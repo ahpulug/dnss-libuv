@@ -14,11 +14,11 @@ dns_authority_t *dns_authority_from_buf(buffer_t *const buffer, const size_t cou
 
     authority->count = count;
 
-    authority->msgs = malloc(sizeof(dns_msg_t) * count);
+    authority->msgs = malloc(sizeof(authority->msgs) * count);
 
     for(int i = 0; i < count; ++i)
     {
-        dns_msg_from_buf(&authority->msgs[i], buffer);
+        authority->msgs[i] = dns_msg_from_buf(buffer);
     }
 
     return authority;
@@ -33,8 +33,7 @@ void dns_authority_free(dns_authority_t *authority)
 
     for(int i = 0; i < authority->count; ++i)
     {
-        free(authority->msgs[i].domain);
-        free(authority->msgs[i].data);
+        dns_msg_free(authority->msgs[i]);
     }
     free(authority->msgs);
     free(authority);
