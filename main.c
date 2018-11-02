@@ -11,7 +11,7 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
     ssize_t n;
     socklen_t len;
 
-    buffer_t *buffer = new_buffer();
+    buffer_t *buffer = buf_default();
 
     for(int i = 0; i < 10; i++)
     {
