@@ -22,7 +22,7 @@ dns_t *dns_from_buf(buffer_t *const buffer)
 
     dns->additional = dns_additional_from_buf(buffer, dns->header->additional_rss);
 
-    return 0;
+    return dns;
 }
 
 buffer_t *dns_to_buf(const dns_t *dns)

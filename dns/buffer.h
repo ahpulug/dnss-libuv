@@ -31,7 +31,7 @@ typedef struct
     char buffer[MAX_BUFFER_LENGTH];
 }buffer_t;
 
-buffer_t *buf_default(void);
+buffer_t *buf_default();
 
 uint8_t *buf_next(buffer_t *buffer, size_t len);
 

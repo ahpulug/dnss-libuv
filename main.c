@@ -5,22 +5,46 @@
 #include <strings.h>
 
 #include "dns/dns.h"
+#include "dns/cache.h"
 
 void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
 {
     ssize_t n;
     socklen_t len;
 
-    buffer_t *buffer = buf_default();
+    cache_t *cache = init_cache();
 
     for(int i = 0; i < 10; i++)
     {
+        buffer_t *buffer = buf_default();
+
         len = chilen;
         n = recvfrom(sockfd, buffer->buffer, MAX_BUFFER_LENGTH, 0, pcliaddr, &len);
         assert(n >= 0);
+
+
         dns_t *dns = dns_from_buf(buffer);
-        dns_free(dns);
+
+        if(dns == NULL)
+        {
+            continue;
+        }
+        if(dns->header->response == 0)
+        {
+            entry_t *entry = cache_get(cache, dns->question->questions[0].name);
+            if(entry)
+            {
+                printf("cache hit : %s", entry->dns->question->questions[0].name);
+            }
+        }
+        else
+        {
+            cache_put(cache, dns);
+        }
+
         buf_free(buffer);
+
+        sendto(sockfd, "response\n\0", 10, 0, pcliaddr, len);
     }
 }
 

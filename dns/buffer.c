@@ -9,7 +9,7 @@
 #include <string.h>
 #include "buffer.h"
 
-buffer_t *buf_default(void)
+buffer_t *buf_default()
 {
     buffer_t *buffer = malloc(sizeof(buffer_t));
     buffer->pos = buffer->buffer;
