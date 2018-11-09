@@ -37,9 +37,16 @@ dns_t *cache_get(cache_t *cache, char *domain)
     time_t nowtime;
     time(&nowtime);
 
-    if(entry != NULL && entry->dns->record.count > 0 && nowtime >= (entry->dns->record.msgs[0].ttl + entry->time))
+    if(entry != NULL)
     {
-        return entry->dns;
+        if(entry->dns->record.count > 0 && nowtime >= (entry->dns->record.msgs[0].ttl + entry->time))
+        {
+            return entry->dns;
+        }
+        else
+        {
+            cache_remove(cache, domain);
+        }
     }
 
     return NULL;
@@ -58,7 +65,7 @@ int cache_put(cache_t *cache, dns_t *dns)
 
 int cache_remove(cache_t *cache, char *domain)
 {
-    entry_t *entry = cache_get(cache, domain);
+    entry_t *entry = map_get(cache, domain);
     if(entry == NULL)
     {
         return -1;

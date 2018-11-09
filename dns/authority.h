@@ -22,6 +22,4 @@ typedef struct dns_authority_s dns_authority_t;
 
 int dns_authority_from_buf(dns_authority_t *authority, buffer_t *buffer, size_t count);
 
-void dns_authority_free(dns_authority_t *authority);
-
 #endif // _AUTHORITY_H_

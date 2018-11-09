@@ -22,6 +22,4 @@ typedef struct dns_additional_s dns_additional_t;
 
 int dns_additional_from_buf(dns_additional_t *additional, buffer_t *buffer, size_t count);
 
-void dns_additional_free(dns_additional_t *additional);
-
 #endif // _ADDITIONAL_H_

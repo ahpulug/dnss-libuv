@@ -33,6 +33,6 @@ int map_put(hashmap_t *map, char *key, void *value);
 
 void *map_get(hashmap_t *map, char *key);
 
-void *map_remove(hashmap_t *map, char *key);
+void map_remove(hashmap_t *map, char *key);
 
 #endif // _MULTIMAP_H_

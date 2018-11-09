@@ -21,8 +21,3 @@ int dns_authority_from_buf(dns_authority_t *authority, buffer_t *buffer, size_t 
 
     return 0;
 }
-
-void dns_authority_free(dns_authority_t *authority)
-{
-}
-

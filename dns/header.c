@@ -67,17 +67,3 @@ int dns_header_from_buf(dns_header_t *header, buffer_t *buffer)
 
     return 0;
 }
-
-buffer_t *dns_header_to_buf(const dns_header_t *header)
-{
-    return 0;
-}
-
-void dns_header_free(dns_header_t *header)
-{
-    if(header != NULL)
-    {
-        free(header);
-        return;
-    }
-}

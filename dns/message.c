@@ -28,7 +28,7 @@ int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer)
     return 0;
 }
 
-void dns_msg_free(dns_msg_t *message)
+void dns_msg_inner_free(dns_msg_t *message)
 {
     if(message == NULL)
     {
@@ -44,21 +44,5 @@ void dns_msg_free(dns_msg_t *message)
     {
         free(message->data);
     }
-    free(message);
 }
 
-dns_msg_t *dns_msg_clone(dns_msg_t *message)
-{
-    dns_msg_t *msg_cloned = malloc(sizeof(dns_msg_t));
-
-    char *domain = malloc(strlen(message->domain) + 1);
-
-    uint8_t *data = malloc(message->data_len);
-
-    memcpy(msg_cloned, message, sizeof(dns_msg_t));
-
-    msg_cloned->domain = domain;
-    msg_cloned->data = data;
-
-    return msg_cloned;
-}

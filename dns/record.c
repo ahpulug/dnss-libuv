@@ -21,7 +21,3 @@ int dns_record_from_buf(dns_record_t *record, buffer_t *const buffer, const size
     }
     return 0;
 }
-
-void dns_record_free(dns_record_t *record)
-{
-}

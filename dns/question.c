@@ -25,21 +25,3 @@ int dns_question_from_buf(dns_question_t *question, buffer_t *const buffer, cons
 
     return 0;
 }
-
-void dns_question_free(dns_question_t *question)
-{
-    if(question == NULL)
-    {
-        return;
-    }
-
-    if(question->count != 0)
-    {
-        for(int i = 0; i < question->count; ++i)
-        {
-            free(question->questions[i].name);
-        }
-        free(question->questions);
-    }
-    free(question);
-}

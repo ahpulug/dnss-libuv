@@ -30,4 +30,29 @@ buffer_t *dns_to_buf(const dns_t *dns)
 
 void dns_free(dns_t *dns)
 {
+    for(int i = 0; i < dns->question.count; ++i)
+    {
+        free(dns->question.questions[i].name);
+    }
+
+    for(int i = 0; i < dns->record.count; ++i)
+    {
+        dns_msg_inner_free(&dns->record.msgs[i]);
+    }
+    free(dns->record.msgs);
+
+    for(int i = 0; i < dns->authority.count; ++i)
+    {
+        dns_msg_inner_free(&dns->authority.msgs[i]);
+    }
+    free(dns->additional.msgs);
+
+    for(int i = 0; i < dns->additional.count; ++i)
+    {
+        dns_msg_inner_free(&dns->additional.msgs[i]);
+    }
+    free(dns->additional.msgs);
+
+    free(dns);
+    dns = NULL;
 }

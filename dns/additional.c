@@ -21,7 +21,3 @@ int dns_additional_from_buf(dns_additional_t *additional, buffer_t *buffer, size
 
     return 0;
 }
-
-void dns_additional_free(dns_additional_t *additional)
-{
-}

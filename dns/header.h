@@ -39,6 +39,4 @@ int dns_header_from_buf(dns_header_t *header, buffer_t *buffer);
 
 buffer_t *dns_header_to_buf(const dns_header_t *header);
 
-void dns_header_free(dns_header_t *header);
-
 #endif // _HEADER_H_

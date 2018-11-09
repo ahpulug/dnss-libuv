@@ -60,5 +60,4 @@ int main()
     bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
     dg_read(sockfd, (struct sockaddr *)&client_addr, sizeof(client_addr));
-
 }
