@@ -15,7 +15,6 @@ entry_t *init_entry(time_t rawtime, dns_t *dns)
 
     entry->time = rawtime;
     entry->dns = dns;
-
     return entry;
 }
 
@@ -27,17 +26,23 @@ void free_entry(entry_t *entry)
 
 cache_t *init_cache()
 {
-    return hashtable_default();
+    return map_default();
 }
 
-entry_t *cache_get(cache_t *cache, char *domain)
+dns_t *cache_get(cache_t *cache, char *domain)
 {
-    entry_t *entry = ht_get(cache, domain);
+    entry_t *entry = map_get(cache, domain);
+
 
     time_t nowtime;
     time(&nowtime);
 
-    return entry;
+    if(entry != NULL && entry->dns->record.count > 0 && nowtime >= (entry->dns->record.msgs[0].ttl + entry->time))
+    {
+        return entry->dns;
+    }
+
+    return NULL;
 }
 
 int cache_put(cache_t *cache, dns_t *dns)
@@ -48,7 +53,7 @@ int cache_put(cache_t *cache, dns_t *dns)
 
     entry_t *entry = init_entry(rawtime, dns);
 
-    return ht_put(cache, entry->dns->question->questions[0].name, entry);
+    return map_put(cache, dns->question.questions[0].name, entry);
 }
 
 int cache_remove(cache_t *cache, char *domain)
@@ -59,5 +64,7 @@ int cache_remove(cache_t *cache, char *domain)
         return -1;
     }
     free_entry(entry);
-    return ht_remove(cache, domain);
+
+    map_remove(cache, domain);
+    return 0;
 }

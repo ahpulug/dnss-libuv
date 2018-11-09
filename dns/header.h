@@ -35,7 +35,7 @@ struct dns_header_s
 
 typedef struct dns_header_s dns_header_t;
 
-dns_header_t *dns_header_from_buf(buffer_t *const buffer);
+int dns_header_from_buf(dns_header_t *header, buffer_t *buffer);
 
 buffer_t *dns_header_to_buf(const dns_header_t *header);
 

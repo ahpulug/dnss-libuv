@@ -8,21 +8,19 @@
 
 #include "dns.h"
 
-dns_t *dns_from_buf(buffer_t *const buffer)
+int dns_from_buf(dns_t *dns, char *buf)
 {
-    dns_t *dns = (dns_t *)malloc(sizeof(dns_t));
+    assert(dns != NULL);
+    buffer_t *buffer = buf_default(buf);
 
-    dns->header = dns_header_from_buf(buffer);
+    dns_header_from_buf(&dns->header, buffer);
+    dns_question_from_buf(&dns->question, buffer, dns->header.question_rrs);
+    dns_record_from_buf(&dns->record, buffer, dns->header.record_rrs);
+    dns_additional_from_buf(&dns->additional, buffer, dns->header.additional_rss);
+    dns_authority_from_buf(&dns->authority, buffer, dns->header.autority_rss);
 
-    dns->question = dns_question_from_buf(buffer, dns->header->question_rrs);
-
-    dns->record = dns_record_from_buf(buffer, dns->header->record_rrs);
-
-    dns->authority = dns_authority_from_buf(buffer, dns->header->autority_rss);
-
-    dns->additional = dns_additional_from_buf(buffer, dns->header->additional_rss);
-
-    return dns;
+    buf_free(buffer);
+    return 0;
 }
 
 buffer_t *dns_to_buf(const dns_t *dns)
@@ -32,10 +30,4 @@ buffer_t *dns_to_buf(const dns_t *dns)
 
 void dns_free(dns_t *dns)
 {
-    dns_header_free(dns->header);
-    dns_question_free(dns->question);
-    dns_record_free(dns->record);
-    dns_authority_free(dns->authority);
-    dns_additional_free(dns->additional);
-    free(dns);
 }

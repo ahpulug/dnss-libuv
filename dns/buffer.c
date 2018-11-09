@@ -9,34 +9,35 @@
 #include <string.h>
 #include "buffer.h"
 
-buffer_t *buf_default()
+buffer_t *buf_default(const char *raw)
 {
     buffer_t *buffer = malloc(sizeof(buffer_t));
-    buffer->pos = buffer->buffer;
+    memcpy(buffer->raw, raw, MAX_BUFFER_LENGTH);
+    buffer->pos = buffer->raw;
     buffer->offset = 0;
     return buffer;
 }
 
 uint8_t read_u8_from_offset(buffer_t *buffer, ssize_t offset)
 {
-    return (uint8_t)(*(buffer->buffer + offset));
+    return (uint8_t)(*(buffer->raw + offset));
 }
 
 uint16_t read_u16_from_offset(buffer_t *buffer, ssize_t offset)
 {
     return (uint16_t)(
-            ((((uint16_t)(*(buffer->buffer + offset + 0))) << 8) & 0xff00) |
-            ((((uint16_t)(*(buffer->buffer + offset + 1))) << 0) & 0x00ff)
+            ((((uint16_t)(*(buffer->raw + offset + 0))) << 8) & 0xff00) |
+            ((((uint16_t)(*(buffer->raw + offset + 1))) << 0) & 0x00ff)
     );
 }
 
 uint32_t read_u32_from_offset(buffer_t *buffer, ssize_t offset)
 {
     return (uint32_t)(
-            ((((uint32_t)(*(buffer->buffer + offset + 0))) << 24) & 0xff000000) |
-            ((((uint32_t)(*(buffer->buffer + offset + 1))) << 16) & 0x00ff0000) |
-            ((((uint32_t)(*(buffer->buffer + offset + 2))) << 8) & 0x0000ff00) |
-            ((((uint32_t)(*(buffer->buffer + offset + 3))) << 0) & 0xff0000ff)
+            ((((uint32_t)(*(buffer->raw + offset + 0))) << 24) & 0xff000000) |
+            ((((uint32_t)(*(buffer->raw + offset + 1))) << 16) & 0x00ff0000) |
+            ((((uint32_t)(*(buffer->raw + offset + 2))) << 8) & 0x0000ff00) |
+            ((((uint32_t)(*(buffer->raw + offset + 3))) << 0) & 0xff0000ff)
     );
 }
 
@@ -97,10 +98,10 @@ char *__read_mDNS_domain(buffer_t *const buffer, ssize_t offset)
 {
     char domain_tmp[MAX_DOMAIN_LENGTH];
     size_t domain_tmp_len = 0;
-    while(*(buffer->buffer + offset) != '\0')
+    while(*(buffer->raw + offset) != '\0')
     {
         uint8_t len = read_u8_from_offset(buffer, offset);
-        memcpy(domain_tmp + domain_tmp_len, buffer->buffer + offset, len + 1);
+        memcpy(domain_tmp + domain_tmp_len, buffer->raw + offset, len + 1);
         domain_tmp_len += (len + 1);
         offset += (len + 1);
     }
@@ -114,7 +115,7 @@ char *__read_mDNS_domain(buffer_t *const buffer, ssize_t offset)
 size_t read_section_domain(char *domain_pos, buffer_t *buffer, size_t offset)
 {
     size_t len = read_u8_from_offset(buffer, offset);
-    memcpy(domain_pos, buffer->buffer + offset, (size_t)(len + 1));
+    memcpy(domain_pos, buffer->raw + offset, (size_t)(len + 1));
     return len;
 }
 
@@ -122,7 +123,7 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
 {
     char domain_tmp[MAX_DOMAIN_LENGTH];
     size_t domain_tmp_len = 0;
-    while(*(buffer->buffer + offset) != '\0')
+    while(*(buffer->raw + offset) != '\0')
     {
         size_t m_offset = 0;
         if((m_offset = dns_check_mdns(buffer, offset)) == 0)
@@ -144,7 +145,7 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
 
     offset += 1;
     buffer->offset = offset;
-    buffer->pos = buffer->buffer + offset;
+    buffer->pos = buffer->raw + offset;
 
     char *domain = malloc(domain_tmp_len + 1);
 

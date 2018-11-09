@@ -10,7 +10,7 @@
 #define _CACHE_H_
 
 #include <stdint.h>
-#include "hashtable.h"
+#include "hashmap.h"
 #include "dns.h"
 
 struct entry_s
@@ -20,11 +20,11 @@ struct entry_s
 };
 
 typedef struct entry_s entry_t;
-typedef hashtable_t cache_t;
+typedef hashmap_t cache_t;
 
 cache_t *init_cache();
 
-entry_t *cache_get(cache_t *cache, char *domain);
+dns_t *cache_get(cache_t *cache, char *domain);
 
 int cache_put(cache_t *cache, dns_t *dns);
 

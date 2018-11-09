@@ -6,15 +6,11 @@
  @Desc      : from message.h
 *******************************************************/
 
+#include <string.h>
 #include "message.h"
 
-dns_msg_t *dns_msg_from_buf(buffer_t *buffer)
+int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer)
 {
-    dns_msg_t *message = NULL;
-    if((message = malloc(sizeof(dns_msg_t))) == NULL)
-    {
-        return NULL;
-    }
 
     char *domain = buf_next_domain(buffer);
 
@@ -29,7 +25,7 @@ dns_msg_t *dns_msg_from_buf(buffer_t *buffer)
 
     message->data = buf_next(buffer, message->data_len);
 
-    return message;
+    return 0;
 }
 
 void dns_msg_free(dns_msg_t *message)
@@ -49,4 +45,20 @@ void dns_msg_free(dns_msg_t *message)
         free(message->data);
     }
     free(message);
+}
+
+dns_msg_t *dns_msg_clone(dns_msg_t *message)
+{
+    dns_msg_t *msg_cloned = malloc(sizeof(dns_msg_t));
+
+    char *domain = malloc(strlen(message->domain) + 1);
+
+    uint8_t *data = malloc(message->data_len);
+
+    memcpy(msg_cloned, message, sizeof(dns_msg_t));
+
+    msg_cloned->domain = domain;
+    msg_cloned->data = data;
+
+    return msg_cloned;
 }

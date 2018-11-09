@@ -62,7 +62,9 @@ struct dns_msg_s
 
 typedef struct dns_msg_s dns_msg_t;
 
-dns_msg_t *dns_msg_from_buf(buffer_t *buffer);
+int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer);
+
+dns_msg_t *dns_msg_clone(dns_msg_t *message);
 
 void dns_msg_free(dns_msg_t *message);
 

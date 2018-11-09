@@ -9,13 +9,8 @@
 #include "question.h"
 #include <string.h>
 
-dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count)
+int dns_question_from_buf(dns_question_t *question, buffer_t *const buffer, const size_t count)
 {
-    assert(buffer != NULL);
-    assert(buffer->offset == 12);
-
-    dns_question_t *question = (dns_question_t *)malloc(sizeof(dns_question_t));
-
     question->count = count;
     question->questions = malloc(sizeof(questions_t) * count);
 
@@ -28,7 +23,7 @@ dns_question_t *dns_question_from_buf(buffer_t *const buffer, const size_t count
         question->questions[i].qclass = buf_next_u16(buffer);
     }
 
-    return question;
+    return 0;
 }
 
 void dns_question_free(dns_question_t *question)

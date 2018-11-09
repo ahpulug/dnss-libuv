@@ -16,25 +16,23 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
 
     for(int i = 0; i < 10; i++)
     {
-        buffer_t *buffer = buf_default();
+        char buffer[MAX_BUFFER_LENGTH];
 
         len = chilen;
-        n = recvfrom(sockfd, buffer->buffer, MAX_BUFFER_LENGTH, 0, pcliaddr, &len);
+        n = recvfrom(sockfd, buffer, MAX_BUFFER_LENGTH, 0, pcliaddr, &len);
+
         assert(n >= 0);
 
+        dns_t *dns = malloc(sizeof(dns_t));
 
-        dns_t *dns = dns_from_buf(buffer);
+        dns_from_buf(dns, buffer);
 
-        if(dns == NULL)
+        if(dns->header.response == 0)
         {
-            continue;
-        }
-        if(dns->header->response == 0)
-        {
-            entry_t *entry = cache_get(cache, dns->question->questions[0].name);
-            if(entry)
+            dns_t *dns_cache;
+            if((dns_cache = cache_get(cache, dns->question.questions[0].name)) != NULL)
             {
-                printf("cache hit : %s", entry->dns->question->questions[0].name);
+                printf("cache hit\n");
             }
         }
         else
@@ -42,9 +40,7 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
             cache_put(cache, dns);
         }
 
-        buf_free(buffer);
-
-        sendto(sockfd, "response\n\0", 10, 0, pcliaddr, len);
+        sendto(sockfd, "response\n", 9, 0, pcliaddr, len);
     }
 }
 

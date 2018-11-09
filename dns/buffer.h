@@ -28,10 +28,10 @@ typedef struct
 {
     char *pos;
     size_t offset;
-    char buffer[MAX_BUFFER_LENGTH];
+    char raw[MAX_BUFFER_LENGTH];
 }buffer_t;
 
-buffer_t *buf_default();
+buffer_t *buf_default(const char *raw);
 
 uint8_t *buf_next(buffer_t *buffer, size_t len);
 

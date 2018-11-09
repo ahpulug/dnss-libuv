@@ -18,16 +18,27 @@
 
 struct dns_s
 {
-    dns_header_t *header;
-    dns_question_t *question;
-    dns_record_t *record;
-    dns_authority_t *authority;
-    dns_additional_t *additional;
+    dns_header_t header;
+    dns_question_t question;
+    dns_record_t record;
+    dns_authority_t authority;
+    dns_additional_t additional;
 };
+
+typedef struct
+{
+    struct dns_s dns;
+}udp_dns;
+
+typedef struct
+{
+    uint16_t len;
+    struct dns_s dns;
+}tcp_dns;
 
 typedef struct dns_s dns_t;
 
-dns_t *dns_from_buf(buffer_t *const buffer);
+int dns_from_buf(dns_t *dns, char *buf);
 
 buffer_t *dns_to_buf(const dns_t *dns);
 

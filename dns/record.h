@@ -16,11 +16,11 @@
 struct dns_record_s
 {
     size_t count;
-    dns_msg_t **msgs;
+    dns_msg_t *msgs;
 };
 typedef struct dns_record_s dns_record_t;
 
-dns_record_t *dns_record_from_buf(buffer_t *const buffer, const size_t count);
+int dns_record_from_buf(dns_record_t *record, buffer_t *buffer, size_t count);
 
 void dns_record_free(dns_record_t *record);
 
