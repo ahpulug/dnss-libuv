@@ -82,7 +82,7 @@ int map_put(hashmap_t *map, char *key, void *value)
 }
 
 
-void map_remove(hashmap_t *map, char *key)
+void *map_remove(hashmap_t *map, char *key)
 {
     unsigned int hash = bkdr_hash(key);
 
@@ -97,11 +97,14 @@ void map_remove(hashmap_t *map, char *key)
         if((n->hash == hash) && (strcmp(n->key, key) == 0))
         {
             prev->next = next;
+            void * value = n->value;
             free_node(n);
+            return value;
         }
         prev = n;
         n = next;
     }
+    return NULL;
 }
 
 node_t *init_node(char *str, void *value)

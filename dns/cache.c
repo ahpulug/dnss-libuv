@@ -65,13 +65,12 @@ int cache_put(cache_t *cache, dns_t *dns)
 
 int cache_remove(cache_t *cache, char *domain)
 {
-    entry_t *entry = map_get(cache, domain);
-    if(entry == NULL)
-    {
-        return -1;
-    }
-    free_entry(entry);
 
-    map_remove(cache, domain);
-    return 0;
+    entry_t *entry;
+    if((entry = map_remove(cache, domain)) != NULL)
+    {
+        free_entry(entry);
+        return 0;
+    }
+    return -1;
 }
