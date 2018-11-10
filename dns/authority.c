@@ -12,7 +12,7 @@ int dns_authority_from_buf(dns_authority_t *authority, buffer_t *buffer, size_t 
 {
     authority->count = count;
 
-    authority->msgs = malloc(sizeof(authority->msgs) * count);
+    authority->msgs = malloc(sizeof(dns_msg_t) * count);
 
     for(int i = 0; i < count; ++i)
     {

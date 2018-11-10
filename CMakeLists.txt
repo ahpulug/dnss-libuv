@@ -33,4 +33,27 @@ add_executable(dnss_libuv main.c
         dns/hashmap.h
         )
 
+add_executable(test test.c
+        dns/dns.c
+        dns/dns.h
+        dns/header.c
+        dns/header.h
+        dns/question.c
+        dns/question.h
+        dns/record.c
+        dns/record.h
+        dns/buffer.c
+        dns/buffer.h
+        dns/authority.c
+        dns/authority.h
+        dns/additional.c
+        dns/additional.h
+        dns/message.c
+        dns/message.h
+        dns/cache.c
+        dns/cache.h
+        dns/hashmap.c
+        dns/hashmap.h
+        )
+
 target_link_libraries(${PROJECT_NAME} ${UV_LIBRARIES} ${OPENSSL_SSL_LIBRARY})

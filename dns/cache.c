@@ -18,13 +18,14 @@ entry_t *init_entry(time_t rawtime, dns_t *dns)
     return entry;
 }
 
-void free_entry(entry_t *entry)
+void entry_free(entry_t *entry)
 {
     dns_free(entry->dns);
     free(entry);
+    entry = NULL;
 }
 
-cache_t *init_cache()
+cache_t *cache_default()
 {
     return map_default();
 }
@@ -60,7 +61,15 @@ int cache_put(cache_t *cache, dns_t *dns)
 
     entry_t *entry = init_entry(rawtime, dns);
 
-    return map_put(cache, dns->question.questions[0].name, entry);
+    entry_t *res;
+
+    if(((res = map_put(cache, dns->question.questions[0].name, entry)) != NULL))
+    {
+        entry_free(res);
+        res = NULL;
+        return 1;
+    }
+    return 0;
 }
 
 int cache_remove(cache_t *cache, char *domain)
@@ -69,7 +78,7 @@ int cache_remove(cache_t *cache, char *domain)
     entry_t *entry;
     if((entry = map_remove(cache, domain)) != NULL)
     {
-        free_entry(entry);
+        entry_free(entry);
         return 0;
     }
     return -1;

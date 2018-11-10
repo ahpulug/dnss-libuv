@@ -16,8 +16,8 @@ int dns_from_buf(dns_t *dns, char *buf)
     dns_header_from_buf(&dns->header, buffer);
     dns_question_from_buf(&dns->question, buffer, dns->header.question_rrs);
     dns_record_from_buf(&dns->record, buffer, dns->header.record_rrs);
-    dns_additional_from_buf(&dns->additional, buffer, dns->header.additional_rss);
     dns_authority_from_buf(&dns->authority, buffer, dns->header.autority_rss);
+    dns_additional_from_buf(&dns->additional, buffer, dns->header.additional_rss);
 
     buf_free(buffer);
     return 0;
@@ -34,6 +34,7 @@ void dns_free(dns_t *dns)
     {
         free(dns->question.questions[i].name);
     }
+    free(dns->question.questions);
 
     for(int i = 0; i < dns->record.count; ++i)
     {
@@ -45,7 +46,7 @@ void dns_free(dns_t *dns)
     {
         dns_msg_inner_free(&dns->authority.msgs[i]);
     }
-    free(dns->additional.msgs);
+    free(dns->authority.msgs);
 
     for(int i = 0; i < dns->additional.count; ++i)
     {

@@ -138,6 +138,7 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
             memcpy(domain_tmp + domain_tmp_len, res, strlen(res));
             domain_tmp_len += strlen(res);
             free(res);
+            res = NULL;
             offset += 1;
             break;
         }
@@ -168,4 +169,5 @@ void buf_free(buffer_t *buffer)
         return;
     }
     free(buffer);
+    buffer = NULL;
 }

@@ -21,7 +21,7 @@ int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer)
     message->ttl = buf_next_u32(buffer);
     message->data_len = buf_next_u16(buffer);
 
-    message->data = malloc(sizeof(int8_t) * message->data_len);
+//    message->data = malloc(sizeof(int8_t) * message->data_len);
 
     message->data = buf_next(buffer, message->data_len);
 
@@ -38,11 +38,13 @@ void dns_msg_inner_free(dns_msg_t *message)
     if(message->domain != NULL)
     {
         free(message->domain);
+        message->domain=NULL;
     }
 
     if(message->data != NULL)
     {
         free(message->data);
+        message->data = NULL;
     }
 }
 

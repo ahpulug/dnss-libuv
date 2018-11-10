@@ -29,7 +29,7 @@ typedef struct hashmap_s
 
 hashmap_t *map_default();
 
-int map_put(hashmap_t *map, char *key, void *value);
+void *map_put(hashmap_t *map, char *key, void *value);
 
 void *map_get(hashmap_t *map, char *key);
 

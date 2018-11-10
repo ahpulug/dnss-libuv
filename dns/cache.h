@@ -22,7 +22,7 @@ struct entry_s
 typedef struct entry_s entry_t;
 typedef hashmap_t cache_t;
 
-cache_t *init_cache();
+cache_t *cache_default();
 
 dns_t *cache_get(cache_t *cache, char *domain);
 

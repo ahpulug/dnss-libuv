@@ -12,7 +12,7 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
     ssize_t n;
     socklen_t len;
 
-    cache_t *cache = init_cache();
+    cache_t *cache = cache_default();
 
     for(int i = 0; i < 10; i++)
     {

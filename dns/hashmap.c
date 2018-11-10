@@ -58,27 +58,31 @@ void *map_get(hashmap_t *map, char *key)
     return NULL;
 }
 
-int map_put(hashmap_t *map, char *key, void *value)
+void *map_put(hashmap_t *map, char *key, void *value)
 {
-    node_t *node = init_node(key, value);
 
-    unsigned int index = node->hash % MAX_MAP_LENGTH;
+    unsigned int hash = bkdr_hash(key);
+    unsigned int index = hash % MAX_MAP_LENGTH;
 
 
     for(node_t *n = map->table[index]; n; n = n->next)
     {
-        if((n->hash == node->hash) && (strcmp(n->key, key) == 0))
+        if((n->hash == hash) && (strcmp(n->key, key) == 0))
         {
             //replace
+            void *tmp = n->value;
             n->value = value;
-            return 0;
+
+            return tmp;
         }
     }
+    node_t *node = init_node(key, value);
 
     //insert into the head
     node->next = map->table[index];
     map->table[index] = node;
-    return 0;
+    map->count++;
+    return NULL;
 }
 
 
@@ -97,7 +101,14 @@ void *map_remove(hashmap_t *map, char *key)
         if((n->hash == hash) && (strcmp(n->key, key) == 0))
         {
             prev->next = next;
-            void * value = n->value;
+            map->count--;
+
+            void *value = n->value;
+
+            if(n == map->table[index])
+            {
+                map->table[index] = NULL;
+            }
             free_node(n);
             return value;
         }
@@ -128,6 +139,8 @@ void free_node(node_t *node)
     }
 
     free(node->key);
+    node->key = NULL;
     free(node);
+    node = NULL;
 }
 
