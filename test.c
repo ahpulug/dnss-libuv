@@ -28,14 +28,13 @@ int main(int argc, char **argv)
     int i = 10;
     while(i--)
     {
-        dns_t *dns = malloc(sizeof(dns_t));
+        dns_t *dns = dns_default();
         dns_from_buf(dns, buf);
         cache_put(cache, dns);
-        dns_t *dns1 = malloc(sizeof(dns_t));
+        dns_t *dns1 = dns_default();
         dns_from_buf(dns1, buf);
         cache_put(cache, dns1);
-        cache_remove(cache, dns1->question.questions[0].name);
-//        dns_free(dns);
     }
+    cache_free(cache);
 
 }

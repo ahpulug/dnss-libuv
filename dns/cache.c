@@ -46,7 +46,7 @@ dns_t *cache_get(cache_t *cache, char *domain)
         }
         else
         {
-            cache_remove(cache, domain);
+            cache_remove_and_free(cache, domain);
         }
     }
 
@@ -72,7 +72,7 @@ int cache_put(cache_t *cache, dns_t *dns)
     return 0;
 }
 
-int cache_remove(cache_t *cache, char *domain)
+int cache_remove_and_free(cache_t *cache, char *domain)
 {
 
     entry_t *entry;
@@ -82,4 +82,27 @@ int cache_remove(cache_t *cache, char *domain)
         return 0;
     }
     return -1;
+}
+
+int cache_free(cache_t *cache)
+{
+    assert(cache != NULL);
+
+    all_value_t all = map_get_all(cache);
+
+
+    for(int i = 0; i < all.count; ++i)
+    {
+
+        data_t *tmp = all.data;
+
+        entry_free(tmp->value);
+
+        all.data = all.data->next;
+
+        free(tmp);
+    }
+
+    map_free(cache);
+    return 0;
 }

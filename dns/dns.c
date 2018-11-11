@@ -8,6 +8,11 @@
 
 #include "dns.h"
 
+dns_t * dns_default()
+{
+    return malloc(sizeof(dns_t));
+}
+
 int dns_from_buf(dns_t *dns, char *buf)
 {
     assert(dns != NULL);

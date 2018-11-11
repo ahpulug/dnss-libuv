@@ -28,7 +28,8 @@ dns_t *cache_get(cache_t *cache, char *domain);
 
 int cache_put(cache_t *cache, dns_t *dns);
 
-int cache_remove(cache_t *cache, char *domain);
+int cache_remove_and_free(cache_t *cache, char *domain);
 
+int cache_free(cache_t *cache);
 
 #endif // _CACHE_H_

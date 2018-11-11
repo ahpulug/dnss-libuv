@@ -27,12 +27,29 @@ typedef struct hashmap_s
     node_t *table[MAX_MAP_LENGTH];
 }hashmap_t;
 
+typedef struct data_s
+{
+    void *value;
+    struct data_s *next;
+}data_t;
+
+typedef struct all_value_s
+{
+    unsigned int count;
+    data_t *data;
+
+}all_value_t;
+
 hashmap_t *map_default();
 
 void *map_put(hashmap_t *map, char *key, void *value);
 
 void *map_get(hashmap_t *map, char *key);
 
+all_value_t map_get_all(hashmap_t *map);
+
 void *map_remove(hashmap_t *map, char *key);
+
+void map_free(hashmap_t *map);
 
 #endif // _MULTIMAP_H_

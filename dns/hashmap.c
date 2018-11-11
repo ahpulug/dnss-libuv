@@ -118,6 +118,47 @@ void *map_remove(hashmap_t *map, char *key)
     return NULL;
 }
 
+void map_free(hashmap_t *map)
+{
+    for(int i = 0; i < MAX_MAP_LENGTH; ++i)
+    {
+        node_t *node = map->table[i];
+        while(node)
+        {
+            node_t *next = node->next;
+            free_node(node);
+            node = next;
+        }
+    }
+    free(map);
+}
+
+all_value_t map_get_all(hashmap_t *map)
+{
+    all_value_t result;
+    result.count = map->count;
+
+    unsigned int index = 0;
+
+    data_t *tmp = malloc(sizeof(data_t));
+
+    result.data = tmp;
+
+    for(int i = 0; i < MAX_MAP_LENGTH; ++i)
+    {
+        node_t *node = map->table[i];
+        while(node)
+        {
+            tmp->value = node->value;
+            node = node->next;
+            index++;
+            tmp->next = tmp;
+        }
+    }
+
+    return result;
+}
+
 node_t *init_node(char *str, void *value)
 {
     node_t *node = malloc(sizeof(node_t));
