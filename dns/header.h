@@ -10,22 +10,50 @@
 #define _HEADER_H_
 
 #include <stdint.h>
+#include <asm/byteorder.h>
 #include "buffer.h"
+
+typedef struct
+{
+#if defined(__LITTLE_ENDIAN_BITFIELD)
+    uint8_t recursion_desired:1,
+            truncated_message:1,
+            authoritative_answer:1,
+            operation_code:4,
+            response:1;
+
+    uint8_t response_code:4,
+            checking_disabled:1,
+            authed_data:1,
+            z:1,
+            recursion_avilable:1;
+
+
+#elif defined(__BIG_ENDIAN_BITFIELD)
+    uint8_t response:1,
+            operation_code:4,
+            authoritative_answer:1,
+            truncated_message:1,
+            recursion_desired:1;
+
+    uint8_t recursion_avilable:1,
+            z:1,
+            authed_data:1,
+            checking_disabled:1,
+            response_code:4;
+
+
+#else
+#error    "Please fix <asm/byteorder.h>"
+#endif
+
+}flag_t;
 
 struct dns_header_s
 {
     uint16_t id;
 
-    uint16_t response:1;
-    uint16_t operation_code:4;
-    uint16_t authoritative_answer:1;
-    uint16_t truncated_message:1;
-    uint16_t recursion_desired:1;
-    uint16_t recursion_avilable:1;
-    uint16_t z:1;
-    uint16_t authed_data:1;
-    uint16_t checking_disabled:1;
-    uint16_t response_code:4;
+    flag_t flag;
 
     uint16_t question_rrs;
     uint16_t record_rrs;
@@ -37,6 +65,6 @@ typedef struct dns_header_s dns_header_t;
 
 int dns_header_from_buf(dns_header_t *header, buffer_t *buffer);
 
-buffer_t *dns_header_to_buf(const dns_header_t *header);
+void dns_header_to_buf(buffer_t *buffer, const dns_header_t *header);
 
 #endif // _HEADER_H_

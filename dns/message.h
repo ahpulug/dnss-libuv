@@ -66,4 +66,6 @@ int dns_msg_from_buf(dns_msg_t *message, buffer_t *buffer);
 
 void dns_msg_inner_free(dns_msg_t *message);
 
+int dns_msg_to_buf(buffer_t *buffer, const dns_msg_t * message);
+
 #endif // _MESSAGE_H_

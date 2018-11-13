@@ -21,3 +21,12 @@ int dns_additional_from_buf(dns_additional_t *additional, buffer_t *buffer, size
 
     return 0;
 }
+
+int dns_additional_to_buf(buffer_t *buffer,const dns_additional_t *additional)
+{
+    for(int i = 0; i < additional->count; ++i)
+    {
+        dns_msg_to_buf(buffer, &additional->msgs[i]);
+    }
+    return 0;
+}

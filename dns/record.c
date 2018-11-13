@@ -21,3 +21,12 @@ int dns_record_from_buf(dns_record_t *record, buffer_t *const buffer, const size
     }
     return 0;
 }
+
+int dns_record_to_buf(buffer_t *buffer, const dns_record_t *record)
+{
+    for(int i = 0; i < record->count; ++i)
+    {
+        dns_msg_to_buf(buffer, &record->msgs[i]);
+    }
+    return 0;
+}

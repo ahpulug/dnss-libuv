@@ -22,4 +22,6 @@ typedef struct dns_authority_s dns_authority_t;
 
 int dns_authority_from_buf(dns_authority_t *authority, buffer_t *buffer, size_t count);
 
+int dns_authority_to_buf(buffer_t *buffer, const dns_authority_t *authority);
+
 #endif // _AUTHORITY_H_

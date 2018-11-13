@@ -8,15 +8,17 @@
 
 #include "dns.h"
 
-dns_t * dns_default()
+dns_t *dns_default()
 {
-    return malloc(sizeof(dns_t));
+    return calloc(1, sizeof(dns_t));
 }
 
-int dns_from_buf(dns_t *dns, char *buf)
+int dns_from_buf(dns_t *dns, char *buf, size_t len)
 {
     assert(dns != NULL);
-    buffer_t *buffer = buf_default(buf);
+    buffer_t *buffer = buf_default();
+
+    buf_cpy(buffer, buf, len);
 
     dns_header_from_buf(&dns->header, buffer);
     dns_question_from_buf(&dns->question, buffer, dns->header.question_rrs);
@@ -28,9 +30,13 @@ int dns_from_buf(dns_t *dns, char *buf)
     return 0;
 }
 
-buffer_t *dns_to_buf(const dns_t *dns)
+void dns_to_buf(const dns_t *dns, buffer_t *buffer)
 {
-    return 0;
+    dns_header_to_buf(buffer, &dns->header);
+    dns_question_to_buf(buffer, &dns->question);
+    dns_record_to_buf(buffer, &dns->record);
+    dns_authority_to_buf(buffer, &dns->authority);
+    dns_additional_to_buf(buffer, &dns->additional);
 }
 
 void dns_free(dns_t *dns)

@@ -21,3 +21,13 @@ int dns_authority_from_buf(dns_authority_t *authority, buffer_t *buffer, size_t 
 
     return 0;
 }
+
+int dns_authority_to_buf(buffer_t *buffer, const dns_authority_t *authority)
+{
+    for(int i = 0; i < authority->count; ++i)
+    {
+        dns_msg_to_buf(buffer, &authority->msgs[i]);
+    }
+    return 0;
+}
+

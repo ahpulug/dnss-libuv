@@ -7,16 +7,28 @@
 *******************************************************/
 
 #include <string.h>
+#include <arpa/inet.h>
 #include "buffer.h"
 
-buffer_t *buf_default(const char *raw)
+buffer_t *buf_new(size_t size)
 {
     buffer_t *buffer = malloc(sizeof(buffer_t));
-    memcpy(buffer->raw, raw, MAX_BUFFER_LENGTH);
+    buffer->raw = malloc(size);
     buffer->pos = buffer->raw;
-    buffer->offset = 0;
+    buffer->len = size;
     return buffer;
 }
+
+buffer_t *buf_default()
+{
+    return buf_new(BUF_DEFAULT_LENGTH);
+}
+
+ssize_t buf_cpy(buffer_t *buffer, const char *raw, size_t len)
+{
+    memcpy(buffer->raw, raw, len);
+}
+
 
 uint8_t read_u8_from_offset(buffer_t *buffer, ssize_t offset)
 {
@@ -25,59 +37,54 @@ uint8_t read_u8_from_offset(buffer_t *buffer, ssize_t offset)
 
 uint16_t read_u16_from_offset(buffer_t *buffer, ssize_t offset)
 {
-    return (uint16_t)(
-            ((((uint16_t)(*(buffer->raw + offset + 0))) << 8) & 0xff00) |
-            ((((uint16_t)(*(buffer->raw + offset + 1))) << 0) & 0x00ff)
+    return ntohs(
+            (((uint16_t)((uint8_t)*(buffer->raw + offset + 0))) << 0) |
+            (((uint16_t)((uint8_t)*(buffer->raw + offset + 1))) << 8)
     );
 }
 
 uint32_t read_u32_from_offset(buffer_t *buffer, ssize_t offset)
 {
-    return (uint32_t)(
-            ((((uint32_t)(*(buffer->raw + offset + 0))) << 24) & 0xff000000) |
-            ((((uint32_t)(*(buffer->raw + offset + 1))) << 16) & 0x00ff0000) |
-            ((((uint32_t)(*(buffer->raw + offset + 2))) << 8) & 0x0000ff00) |
-            ((((uint32_t)(*(buffer->raw + offset + 3))) << 0) & 0xff0000ff)
+    return ntohl(
+            (((uint32_t)((uint8_t)*(buffer->raw + offset + 0))) << 0) |
+            (((uint32_t)((uint8_t)*(buffer->raw + offset + 1))) << 8) |
+            (((uint32_t)((uint8_t)*(buffer->raw + offset + 2))) << 16) |
+            (((uint32_t)((uint8_t)*(buffer->raw + offset + 3))) << 24)
     );
 }
 
-uint8_t *buf_next(buffer_t *buffer, size_t len)
+size_t buf_read_next(buffer_t *buffer, uint8_t *res, size_t len)
 {
-    uint8_t *const res = malloc(sizeof(uint8_t) * len);
     memcpy(res, buffer->pos, len);
     buf_pos_skip(buffer, len);
-    return res;
+    return len;
 }
 
-uint8_t buf_next_u8(buffer_t *buffer)
+uint8_t buf_read_next_u8(buffer_t *buffer)
 {
-    uint8_t res = read_u8_from_offset(buffer, buffer->offset);
+    uint8_t res = read_u8_from_offset(buffer, buffer->pos - buffer->raw);
     buffer->pos++;
-    buffer->offset++;
     return res;
 }
 
-uint16_t buf_next_u16(buffer_t *buffer)
+uint16_t buf_read_next_u16(buffer_t *buffer)
 {
-    uint16_t res = read_u16_from_offset(buffer, buffer->offset);
+    uint16_t res = read_u16_from_offset(buffer, buffer->pos - buffer->raw);
     buffer->pos += 2;
-    buffer->offset += 2;
 
     return res;
 }
 
-uint32_t buf_next_u32(buffer_t *buffer)
+uint32_t buf_read_next_u32(buffer_t *buffer)
 {
-    uint32_t res = read_u32_from_offset(buffer, buffer->offset);
+    uint32_t res = read_u32_from_offset(buffer, buffer->pos - buffer->raw);
     buffer->pos += 4;
-    buffer->offset += 4;
     return res;
 }
 
 void buf_pos_skip(buffer_t *buffer, size_t count)
 {
     buffer->pos += count;
-    buffer->offset += count;
 }
 
 size_t dns_check_mdns(buffer_t *buffer, size_t offset)
@@ -145,7 +152,6 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
     }
 
     offset += 1;
-    buffer->offset = offset;
     buffer->pos = buffer->raw + offset;
 
     char *domain = malloc(domain_tmp_len + 1);
@@ -157,9 +163,9 @@ char *__read_domain(buffer_t *const buffer, size_t offset)
     return domain;
 }
 
-char *buf_next_domain(buffer_t *buffer)
+char *buf_read_next_domain(buffer_t *buffer)
 {
-    return __read_domain(buffer, buffer->offset);
+    return __read_domain(buffer, buffer->pos - buffer->raw);
 }
 
 void buf_free(buffer_t *buffer)
@@ -168,6 +174,37 @@ void buf_free(buffer_t *buffer)
     {
         return;
     }
+    free(buffer->raw);
     free(buffer);
     buffer = NULL;
+}
+
+size_t buf_write_next(buffer_t *buffer, uint8_t *src, size_t len)
+{
+    memcpy(buffer->pos, src, len);
+    buffer->pos += len;
+    return len;
+}
+
+int buf_write_next_u8(buffer_t *buffer, uint8_t src)
+{
+    *(buffer->pos) = src;
+    buffer->pos++;
+    return 0;
+}
+
+int buf_write_next_u16(buffer_t *buffer, uint16_t src)
+{
+    uint16_t net_u16 = htons(src);
+    memcpy(buffer->pos, &net_u16, 2);
+    buffer->pos += 2;
+    return 0;
+}
+
+int buf_write_next_u32(buffer_t *buffer, uint32_t src)
+{
+    uint32_t net_u32 = htonl(src);
+    memcpy(buffer->pos, &net_u32, 4);
+    buffer->pos += 4;
+    return 0;
 }

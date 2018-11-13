@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#define MAX_BUFFER_LENGTH (8192)
+#define BUF_DEFAULT_LENGTH (1024)
 #define MAX_DOMAIN_LENGTH (256)
 #define MAX_SECTION_LENGTH (64)
 
@@ -26,24 +26,36 @@
 
 typedef struct
 {
+    size_t len;
     char *pos;
-    size_t offset;
-    char raw[MAX_BUFFER_LENGTH];
+    char *raw;
 }buffer_t;
 
-buffer_t *buf_default(const char *raw);
+buffer_t *buf_new(size_t size);
 
-uint8_t *buf_next(buffer_t *buffer, size_t len);
+buffer_t *buf_default();
 
-uint8_t buf_next_u8(buffer_t *buffer);
+ssize_t buf_cpy(buffer_t *buffer, const char *raw, size_t len);
 
-uint16_t buf_next_u16(buffer_t *buffer);
+size_t buf_read_next(buffer_t *buffer, uint8_t *res, size_t len);
 
-uint32_t buf_next_u32(buffer_t *buffer);
+uint8_t buf_read_next_u8(buffer_t *buffer);
+
+uint16_t buf_read_next_u16(buffer_t *buffer);
+
+uint32_t buf_read_next_u32(buffer_t *buffer);
+
+char *buf_read_next_domain(buffer_t *buffer);
+
+size_t buf_write_next(buffer_t *buffer, uint8_t *src, size_t len);
+
+int buf_write_next_u8(buffer_t *buffer, uint8_t src);
+
+int buf_write_next_u16(buffer_t *buffer, uint16_t src);
+
+int buf_write_next_u32(buffer_t *buffer, uint32_t src);
 
 void buf_pos_skip(buffer_t *buffer, size_t count);
-
-char *buf_next_domain(buffer_t *buffer);
 
 void buf_free(buffer_t *buffer);
 

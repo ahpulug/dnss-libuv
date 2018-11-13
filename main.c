@@ -16,18 +16,18 @@ void dg_read(int sockfd, struct sockaddr *pcliaddr, socklen_t chilen)
 
     for(int i = 0; i < 10; i++)
     {
-        char buffer[MAX_BUFFER_LENGTH];
+        char buffer[BUF_DEFAULT_LENGTH];
 
         len = chilen;
-        n = recvfrom(sockfd, buffer, MAX_BUFFER_LENGTH, 0, pcliaddr, &len);
+        n = recvfrom(sockfd, buffer, BUF_DEFAULT_LENGTH, 0, pcliaddr, &len);
 
         assert(n >= 0);
 
         dns_t *dns = malloc(sizeof(dns_t));
 
-        dns_from_buf(dns, buffer);
+        dns_from_buf(dns, buffer, BUF_DEFAULT_LENGTH);
 
-        if(dns->header.response == 0)
+        if(dns->header.flag.response == 0)
         {
             dns_t *dns_cache;
             if((dns_cache = cache_get(cache, dns->question.questions[0].name)) != NULL)

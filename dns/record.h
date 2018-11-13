@@ -22,4 +22,6 @@ typedef struct dns_record_s dns_record_t;
 
 int dns_record_from_buf(dns_record_t *record, buffer_t *buffer, size_t count);
 
+int dns_record_to_buf(buffer_t *buffer, const dns_record_t *record);
+
 #endif // _RECORD_H_

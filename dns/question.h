@@ -30,4 +30,6 @@ typedef struct dns_question_s dns_question_t;
 
 int dns_question_from_buf(dns_question_t *question, buffer_t *buffer, size_t count);
 
+int dns_question_to_buf(buffer_t *buffer, const dns_question_t *question);
+
 #endif // _QUESTION_H_

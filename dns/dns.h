@@ -38,11 +38,11 @@ typedef struct
 
 typedef struct dns_s dns_t;
 
-dns_t * dns_default();
+dns_t *dns_default();
 
-int dns_from_buf(dns_t *dns, char *buf);
+int dns_from_buf(dns_t *dns, char *buf, size_t len);
 
-buffer_t *dns_to_buf(const dns_t *dns);
+void dns_to_buf(const dns_t *dns, buffer_t *buffer);
 
 void dns_free(dns_t *dns);
 
